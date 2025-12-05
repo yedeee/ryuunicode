@@ -1,2 +1,3 @@
 Hello and welcome to...
 # ryuunicode!
+This is a random unicode genner made by me, yedeee, to satisfy all of our needs with a unicode genner. It's open source so you can fork and edit it, and you can go crazy with it!
