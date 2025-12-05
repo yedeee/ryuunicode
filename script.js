@@ -22,7 +22,7 @@ let favorites = [];
 /* Unicode block table */
 let blockTable = [];
 
-fetch("https://unpkg.com/unicode-blocks/blocks.json")
+fetch("https://gist.githubusercontent.com/mrpapercut/ad96169bda203cbcf9085f68a87381f6/raw/340911aa6fd873439b49eeae612a3979be9792ea/UnicodeBlocks.json")
   .then(r => r.json())
   .then(data => { blockTable = data; })
   .catch(() => {
