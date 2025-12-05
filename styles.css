@@ -1,0 +1,171 @@
+:root {
+  --bg: #0f1724;
+  --fg: #e6eef6;
+  --panel-bg: #1e293b;
+  --panel-fg: #e6eef6;
+  --button-bg: #1e293b;
+  --button-fg: #e6eef6;
+  --highlight: #60a5fa;
+  --transition: 0.35s;
+}
+
+body.light {
+  --bg: #f2f3f5;
+  --fg: #1a1a1a;
+  --panel-bg: #ffffff;
+  --panel-fg: #1a1a1a;
+  --button-bg: #e0e0e0;
+  --button-fg: #1a1a1a;
+  --highlight: #1e88e5;
+}
+
+/* ——— SEPIA RARE SCRIPTS THEME (Dark) ——— */
+body.rare-theme:not(.light) {
+  --bg: #2b2318;
+  --fg: #f3e7d3;
+  --panel-bg: #3a2f22;
+  --panel-fg: #f5e9d6;
+  --button-bg: #4a3a28;
+  --button-fg: #f5e9d6;
+  --highlight: #d6b378;
+}
+
+/* ——— SEPIA RARE SCRIPTS THEME (Light) ——— */
+body.light.rare-theme {
+  --bg: #f5e9d2;
+  --fg: #4b3a25;
+  --panel-bg: #fff6e8;
+  --panel-fg: #4b3a25;
+  --button-bg: #e8d6b8;
+  --button-fg: #4b3a25;
+  --highlight: #b8863b;
+}
+
+* { 
+  font-family: "IBM Plex Mono", monospace !important; 
+}
+
+body {
+  margin:0;
+  height:100vh;
+  background:var(--bg);
+  color:var(--fg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  transition:background var(--transition), color var(--transition);
+}
+
+#content { 
+  text-align:center; 
+  flex:1; 
+  transition:filter 0.4s ease; 
+}
+
+.blurred { filter:blur(8px) brightness(0.7); }
+
+.meta {
+  opacity:0.8;
+  margin-bottom:14px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  text-align:center;
+}
+
+/* Glyph */
+.char {
+  font-size:20vmin;
+  font-family:"Noto Sans","Noto Sans Symbols","Noto Sans Symbols 2","Noto Emoji",sans-serif !important;
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.char.fade-out { opacity: 0; filter: blur(20px); }
+.char.fade-in { opacity: 1; filter: blur(0px); }
+
+button {
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+  background:var(--button-bg);
+  color:var(--button-fg);
+  font-size:15px;
+  cursor:pointer;
+  font-weight:600;
+  transition:background var(--transition), color var(--transition);
+}
+button:hover { opacity:0.85; }
+
+/* =============================
+   AUTO-SHRINK SETTINGS PANEL
+   ============================= */
+.settings-panel {
+  position:absolute;
+  top:0;
+  right:0;
+  width:340px;
+  height:auto;
+  max-height:100vh;
+  overflow-y:auto;
+  background:var(--panel-bg);
+  color:var(--panel-fg);
+  border-left:3px solid var(--highlight);
+  padding:20px;
+  transform:translateX(100%);
+  transition:transform var(--transition);
+  box-sizing:border-box;
+  z-index:9999;
+}
+
+.settings-panel.open {
+  transform:translateX(0);
+}
+
+.panel-list {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:20px;
+  font-size:14px;
+}
+
+#cornerBtn {
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:44px;
+  height:44px;
+  background:var(--panel-bg);
+  border:2px solid var(--highlight);
+  color:var(--panel-fg);
+  border-radius:12px;
+  font-size:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:transform 0.35s ease;
+  z-index:10000;
+}
+
+#cornerBtn.spin { transform:rotate(180deg); }
+
+@media (max-height: 500px) {
+  #cornerBtn {
+    top: 6px;
+    right: 6px;
+    transform: scale(0.85);
+  }
+}
+
+#blurOverlay {
+  position:fixed;
+  inset:0;
+  backdrop-filter:blur(8px);
+  background:rgba(0,0,0,0.25);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--transition);
+}
+#blurOverlay.active { opacity:1; pointer-events:auto; }
