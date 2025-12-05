@@ -358,42 +358,18 @@ function renderFavorites() {
 
     div.onclick = () => {
       charEl.textContent = String.fromCodePoint(cp);
-      codeEl.textContent = "0x" + hex6;
-      hexEl.textContent = "Hex: " + hex6;
-      blockEl.textContent = "Block: " + findBlock(cp);
-    };
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>龍 ryuunicode</title>
 
-    favoritesList.appendChild(div);
-  });
-}
-
-/* ---------------------------------------------------------
-   Misc controls
---------------------------------------------------------- */
-copyBtn.onclick = () => {
-  navigator.clipboard.writeText(charEl.textContent + " " + codeEl.textContent);
-};
-
-cornerBtn.onclick = () => {
-  panel.classList.toggle("open");
-  blurOverlay.classList.toggle("active", panel.classList.contains("open"));
-  content.classList.toggle("blurred", panel.classList.contains("open"));
-  cornerBtn.classList.toggle("spin");
-};
-
-blurOverlay.onclick = () => {
-  panel.classList.remove("open");
-  blurOverlay.classList.remove("active");
-  content.classList.remove("blurred");
-  cornerBtn.classList.remove("spin");
-};
-
-modeToggle.onchange = () => {
-  document.body.classList.toggle("light", modeToggle.checked);
-};
-
-rareToggle.onchange = () => {
-  document.body.classList.toggle("rare-theme", rareToggle.checked);
+<!-- Web Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&displayoggle.checked);
 };
 
 newBtn.onclick = updateGlyph;
