@@ -99,7 +99,7 @@ button:hover { opacity:0.85; }
 
 /* =============================
    AUTO-SHRINK SETTINGS PANEL
-   ============================= 
+   ============================= */
 .settings-panel {
   position: fixed;
   top: 0;
