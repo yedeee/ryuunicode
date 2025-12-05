@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Random Unicode Generator</title>
+
+<!-- Web Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Emoji&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0f1724;
+  --fg: #e6eef6;
+  --panel-bg: #1e293b;
+  --panel-fg: #e6eef6;
+  --button-bg: #1e293b;
+  --button-fg: #e6eef6;
+  --highlight: #60a5fa;
+  --transition: 0.35s;
+}
+
+body.light {
+  --bg: #f2f3f5;
+  --fg: #1a1a1a;
+  --panel-bg: #ffffff;
+  --panel-fg: #1a1a1a;
+  --button-bg: #e0e0e0;
+  --button-fg: #1a1a1a;
+  --highlight: #1e88e5;
+}
+
+body.rare-theme:not(.light) {
+  --bg: #1b0508;
+  --fg: #ffe5e8;
+  --panel-bg: #4a0f14;
+  --panel-fg: #ffd4d9;
+  --button-bg: #3b0f14;
+  --button-fg: #ffd4d9;
+  --highlight: #ff4357;
+}
+
+body.light.rare-theme {
+  --bg: #ffe9eb;
+  --fg: #4f0b13;
+  --panel-bg: #fff4f5;
+  --panel-fg: #4f0b13;
+  --button-bg: #ffd5da;
+  --button-fg: #4f0b13;
+  --highlight: #ff4357;
+}
+
+* { font-family: "IBM Plex Mono", monospace !important; }
+
+body {
+  margin:0;
+  height:100vh;
+  background:var(--bg);
+  color:var(--fg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  transition:background var(--transition), color var(--transition);
+}
+
+#content { text-align:center; flex:1; transition:filter 0.4s ease; }
+
+.blurred { filter:blur(8px) brightness(0.7); }
+
+.meta {
+  opacity:0.8;
+  margin-bottom:14px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  word-break:break-all;
+  white-space:normal;
+  text-align:center;
+}
+
+/* Glyph */
+.char {
+  font-size:20vmin;
+  font-family:"Noto Sans","Noto Sans Symbols","Noto Sans Symbols 2","Noto Emoji",sans-serif !important;
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.char.fade-out { opacity: 0; filter: blur(20px); }
+.char.fade-in { opacity: 1; filter: blur(0px); }
+
+button {
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+  background:var(--button-bg);
+  color:var(--button-fg);
+  font-size:15px;
+  cursor:pointer;
+  font-weight:600;
+  transition:background var(--transition), color var(--transition);
+}
+button:hover { opacity:0.85; }
+
+.settings-panel {
+  position:absolute;
+  top:0;
+  right:0;
+  width:340px;
+  height:100%;
+  background:var(--panel-bg);
+  color:var(--panel-fg);
+  border-left:3px solid var(--highlight);
+  padding:20px;
+  transform:translateX(100%);
+  transition:transform var(--transition);
+  overflow-y:auto;
+  z-index:9999;
+}
+.settings-panel.open { transform:translateX(0); }
+
+.panel-list {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:20px;
+  font-size:14px;
+}
+
+#cornerBtn {
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:44px;
+  height:44px;
+  background:var(--panel-bg);
+  border:2px solid var(--highlight);
+  color:var(--panel-fg);
+  border-radius:12px;
+  font-size:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:transform 0.35s ease;
+  z-index:10000;
+}
+#cornerBtn.spin { transform:rotate(180deg); }
+
+#blurOverlay {
+  position:fixed;
+  inset:0;
+  backdrop-filter:blur(8px);
+  background:rgba(0,0,0,0.25);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity var(--transition);
+}
+#blurOverlay.active { opacity:1; pointer-events:auto; }
+</style>
+</head>
+
+<body>
+
+<div id="blurOverlay"></div>
+
+<div id="content">
+  <div id="char" class="char">?</div>
+
+  <div class="meta">
+    <div id="code">0x00003F</div>
+    <div id="hex">Hex: 00003F</div>
+    <div id="block">Block: (loading…)</div>
+  </div>
+
+  <button id="copyBtn">Copy</button><br><br>
+  <button id="favBtn">★ Favorite</button><br><br>
+  <button id="new">New random</button>
+</div>
+
+<div id="cornerBtn">⚙️</div>
+
+<div id="settingsPanel" class="settings-panel">
+  <h2>Settings</h2>
+
+  <div class="setting-row">
+    <input type="checkbox" id="modeToggle">
+    <label for="modeToggle">Light Mode</label>
+  </div>
+
+  <div class="setting-row">
+    <input type="checkbox" id="rareToggle">
+    <label for="rareToggle">Rare Scripts</label>
+  </div>
+
+  <h3>History</h3>
+  <div id="historyList" class="panel-list"></div>
+  <button id="clearHistoryBtn" style="margin-bottom:20px;">Clear History</button>
+
+  <h3>Favorites</h3>
+  <div id="favoritesList" class="panel-list"></div>
+</div>
+
+<script>
+/* ---------------------------------------------------------
+   Elements
+--------------------------------------------------------- */
+const charEl = document.getElementById("char");
+const codeEl = document.getElementById("code");
+const hexEl = document.getElementById("hex");
+const blockEl = document.getElementById("block");
+const newBtn = document.getElementById("new");
+const favBtn = document.getElementById("favBtn");
+const copyBtn = document.getElementById("copyBtn");
+const historyList = document.getElementById("historyList");
+const favoritesList = document.getElementById("favoritesList");
+const panel = document.getElementById("settingsPanel");
+const cornerBtn = document.getElementById("cornerBtn");
+const content = document.getElementById("content");
+const modeToggle = document.getElementById("modeToggle");
+const rareToggle = document.getElementById("rareToggle");
+const blurOverlay = document.getElementById("blurOverlay");
+const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+
+let history = [];
+let favorites = [];
+
+/* ---------------------------------------------------------
+   Load Unicode block data from CDN
+--------------------------------------------------------- */
+let blockTable = [];
+
+fetch("https://unpkg.com/unicode-blocks/blocks.json")
+  .then(r => r.json())
+  .then(data => { blockTable = data; })
+  .catch(err => {
+    console.warn("Failed to load block table:", err);
+    blockEl.textContent = "Block: (unavailable)";
+  });
+
+function findBlock(cp) {
+  const hex = cp.toString(16).toUpperCase().padStart(4,"0");
+  const num = parseInt(hex, 16);
+
+  for (const b of blockTable) {
+    const start = parseInt(b.start, 16);
+    const end = parseInt(b.end, 16);
+    if (num >= start && num <= end) return b.name;
+  }
+  return "(Unknown Block)";
+}
+
+/* ---------------------------------------------------------
+   Unicode ranges
+--------------------------------------------------------- */
+const NORMAL_RANGES = [
+  [0x0020,0x024F],[0x0370,0x03FF],[0x0400,0x04FF],
+  [0x0590,0x05FF],[0x0600,0x06FF],[0x0900,0x097F],
+  [0x0E00,0x0E7F],[0x3040,0x309F],[0x30A0,0x30FF],
+  [0xAC00,0xD7AF],[0x2000,0x206F],[0x20A0,0x20CF],
+  [0x2100,0x214F],[0x2190,0x21FF],[0x2600,0x26FF],
+  [0x1F300,0x1F5FF],[0x1F600,0x1F64F],[0x1F900,0x1F9FF]
+];
+
+const RARE_RANGES = [
+  [0x12000,0x123FF],
+  [0x13000,0x1342F],
+  [0x1B000,0x1B0FF],
+  [0x10300,0x1034F]
+];
+
+function randFrom(ranges) {
+  const [start,end] = ranges[Math.floor(Math.random()*ranges.length)];
+  return start + Math.floor(Math.random()*(end-start+1));
+}
+
+function toHex6(cp) {
+  return cp.toString(16).toUpperCase().padStart(6,"0");
+}
+
+/* ---------------------------------------------------------
+   Update glyph
+--------------------------------------------------------- */
+function updateGlyph() {
+  charEl.classList.add("fade-out");
+
+  setTimeout(() => {
+    const cp = rareToggle.checked ? randFrom(RARE_RANGES) : randFrom(NORMAL_RANGES);
+    const hex6 = toHex6(cp);
+
+    charEl.textContent = String.fromCodePoint(cp);
+    codeEl.textContent = "0x" + hex6;
+    hexEl.textContent = "Hex: " + hex6;
+
+    blockEl.textContent = "Block: " + findBlock(cp);
+
+    history.unshift(cp);
+    if (history.length > 20) history.pop();
+
+    renderHistory();
+
+    charEl.classList.remove("fade-out");
+    charEl.classList.add("fade-in");
+    setTimeout(() => charEl.classList.remove("fade-in"), 250);
+  }, 180);
+}
+
+/* ---------------------------------------------------------
+   History
+--------------------------------------------------------- */
+function renderHistory() {
+  historyList.innerHTML = "";
+  history.forEach(cp => {
+    const hex6 = toHex6(cp);
+    const div = document.createElement("div");
+
+    div.textContent =
+      String.fromCodePoint(cp) +
+      " — 0x" + hex6 +
+      " — " + findBlock(cp);
+
+    div.onclick = () => {
+      charEl.textContent = String.fromCodePoint(cp);
+      codeEl.textContent = "0x" + hex6;
+      hexEl.textContent = "Hex: " + hex6;
+      blockEl.textContent = "Block: " + findBlock(cp);
+    };
+
+    historyList.appendChild(div);
+  });
+}
+
+clearHistoryBtn.onclick = () => { history = []; renderHistory(); };
+
+/* ---------------------------------------------------------
+   Favorites
+--------------------------------------------------------- */
+favBtn.onclick = () => {
+  const cp = parseInt(codeEl.textContent.slice(2), 16);
+  if (!favorites.includes(cp)) favorites.push(cp);
+  renderFavorites();
+};
+
+function renderFavorites() {
+  favoritesList.innerHTML = "";
+  favorites.forEach(cp => {
+    const hex6 = toHex6(cp);
+    const div = document.createElement("div");
+
+    div.textContent =
+      String.fromCodePoint(cp) +
+      " — 0x" + hex6 +
+      " — " + findBlock(cp);
+
+    div.onclick = () => {
+      charEl.textContent = String.fromCodePoint(cp);
+      codeEl.textContent = "0x" + hex6;
+      hexEl.textContent = "Hex: " + hex6;
+      blockEl.textContent = "Block: " + findBlock(cp);
+    };
+
+    favoritesList.appendChild(div);
+  });
+}
+
+/* ---------------------------------------------------------
+   Misc controls
+--------------------------------------------------------- */
+copyBtn.onclick = () => {
+  navigator.clipboard.writeText(charEl.textContent + " " + codeEl.textContent);
+};
+
+cornerBtn.onclick = () => {
+  panel.classList.toggle("open");
+  blurOverlay.classList.toggle("active", panel.classList.contains("open"));
+  content.classList.toggle("blurred", panel.classList.contains("open"));
+  cornerBtn.classList.toggle("spin");
+};
+
+blurOverlay.onclick = () => {
+  panel.classList.remove("open");
+  blurOverlay.classList.remove("active");
+  content.classList.remove("blurred");
+  cornerBtn.classList.remove("spin");
+};
+
+modeToggle.onchange = () => {
+  document.body.classList.toggle("light", modeToggle.checked);
+};
+
+rareToggle.onchange = () => {
+  document.body.classList.toggle("rare-theme", rareToggle.checked);
+};
+
+newBtn.onclick = updateGlyph;
+
+document.addEventListener("keydown", e => {
+  if (e.code === "Space") { e.preventDefault(); updateGlyph(); }
+});
+
+updateGlyph();
+</script>
+
+</body>
+</html>
