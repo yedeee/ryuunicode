@@ -46,15 +46,19 @@ body.light.rare-theme {
 }
 
 body {
-  margin:0;
-  height:100vh;
-  background:var(--bg);
-  color:var(--fg);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:auto;
-  transition:background var(--transition), color var(--transition);
+  margin: 0;
+  padding: 0;
+  min-height: 100svh; /* at least as tall as smallest viewport when toolbars are visible */
+  /* or if you prefer: height: 100dvh; */  
+  background: var(--bg);
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* optional: block horizontal overflow only */
+  overflow-x: hidden;
+  /* vertical overflow will be default (visible/auto), so content can grow and scroll */
+  transition: background var(--transition), color var(--transition);
 }
 
 #content { 
