@@ -23,8 +23,7 @@ let favorites = [];
 let blockTable = [];
 let blockTableLoaded = false;
 
-fetch("https://gist.githubusercontent.com/mrpapercut/ad96169bda203cbcf9085f68a87381f6/raw/340911aa6fd873439b49eeae612a3979be9792ea/UnicodeBlocks.json")
-  .then(r => r.json())
+fetch("./block.json")
   .then(data => {
     blockTable = data;
     blockTableLoaded = true;
