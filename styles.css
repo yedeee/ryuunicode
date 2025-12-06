@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "BabelStone Han";
+  src: url("fonts/BabelStoneHan.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg: #0f1724;
   --fg: #e6eef6;
@@ -111,6 +119,7 @@ body {
     "Noto Emoji", 
     "Malgun Gothic",
     "Apple SD Gothic Neo",
+    "BabelStone Han",
     sans-serif !important; 
   transition: opacity 0.25s ease, filter 0.25s ease;
 }
