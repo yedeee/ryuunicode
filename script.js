@@ -23,7 +23,7 @@ let favorites = [];
 let blockTable = [];
 let blockTableLoaded = false;
 
-fetch("./block.json")
+fetch("./blocks.json")
   .then(data => {
     blockTable = data;
     blockTableLoaded = true;
