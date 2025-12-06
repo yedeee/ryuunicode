@@ -24,6 +24,7 @@ let blockTable = [];
 let blockTableLoaded = false;
 
 fetch("./blocks.json")
+  .then(res => res.json())               // <-- parse JSON
   .then(data => {
     blockTable = data;
     blockTableLoaded = true;
