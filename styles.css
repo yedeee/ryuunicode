@@ -137,6 +137,8 @@ button {
   cursor:pointer;
   font-weight:600;
   transition:background var(--transition), color var(--transition);
+  display: block;
+  margin: 6px auto;
 }
 button:hover { opacity:0.85; }
 
@@ -199,11 +201,21 @@ button:hover { opacity:0.85; }
   z-index:10000;
 }
 
+#char, 
+#code, 
+#hex, 
+#block {
+  text-align: center;
+}
+
 #searchInput {
   background: var(--button-bg);
   color: var(--button-fg);
   outline: none;
   font-size: 14px;
+  display: block;
+  margin: 10px auto;
+  text-align: center;
 }
 
 #searchInput::placeholder {
