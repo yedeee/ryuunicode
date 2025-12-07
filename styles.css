@@ -94,7 +94,11 @@ body {
 #content { 
   text-align:center; 
   flex:1; 
-  transition:filter 0.4s ease; 
+  transition:filter 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;   /* controls spacing between EVERYTHING */
 }
 
 .blurred { filter:blur(8px) brightness(0.7); }
@@ -138,7 +142,7 @@ button {
   font-weight:600;
   transition:background var(--transition), color var(--transition);
   display: block;
-  margin: 6px auto;
+  margin: 8px auto;
 }
 button:hover { opacity:0.85; }
 
@@ -208,14 +212,24 @@ button:hover { opacity:0.85; }
   text-align: center;
 }
 
+#char {
+  margin-bottom: 10px;
+}
+
+#code, 
+#hex, 
+#block {
+  margin: 4px 0;
+}
+
 /* Search container */
 #searchBox {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   width: fit-content;
-  margin: 20px auto;     /* center horizontally */
+  margin: 10px auto;     /* center horizontally */
 }
 
 /* Search input */
