@@ -141,8 +141,8 @@ button {
   cursor:pointer;
   font-weight:600;
   transition:background var(--transition), color var(--transition);
-  display: block;
-  margin: 8px auto;
+  display: inline-block;
+  margin: 0;
 }
 button:hover { opacity:0.85; }
 
@@ -227,9 +227,9 @@ button:hover { opacity:0.85; }
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   width: fit-content;
-  margin: 10px auto;     /* center horizontally */
+  margin: 0;     /* center horizontally */
 }
 
 /* Search input */
