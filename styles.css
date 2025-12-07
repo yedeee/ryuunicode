@@ -208,14 +208,44 @@ button:hover { opacity:0.85; }
   text-align: center;
 }
 
+/* Search container */
+#searchBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  margin: 20px auto;     /* center horizontally */
+}
+
+/* Search input */
 #searchInput {
-  background: var(--button-bg);
-  color: var(--button-fg);
-  outline: none;
-  font-size: 14px;
-  display: block;
-  margin: 10px auto;
+  width: 220px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
   text-align: center;
+  font-size: 14px;
+  background: #d0d3d8;
+  color: #000;
+  outline: none;
+}
+
+/* "Go" button */
+#searchBtn {
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Make all buttons nicely centered */
+button {
+  display: block;
+  margin: 6px auto;
+  width: fit-content;
 }
 
 #searchInput::placeholder {
