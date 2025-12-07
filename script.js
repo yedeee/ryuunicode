@@ -15,6 +15,8 @@ const modeToggle = document.getElementById("modeToggle");
 const rareToggle = document.getElementById("rareToggle");
 const blurOverlay = document.getElementById("blurOverlay");
 const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
 
 let history = [];
 let favorites = [];
@@ -44,6 +46,19 @@ function findBlock(cp) {
     if (num >= start && num <= end) return b.name;
   }
   return "(Unknown Block)";
+}
+
+function showCodepoint(cp) {
+  const hex6 = toHex6(cp);
+
+  charEl.textContent = String.fromCodePoint(cp);
+  codeEl.textContent = "0x" + hex6;
+  hexEl.textContent = "Hex: " + hex6;
+  blockEl.textContent = "Block: " + findBlock(cp);
+
+  history.unshift(cp);
+  if (history.length > 20) history.pop();
+  renderHistory();
 }
 
 const NORMAL_RANGES = [
@@ -134,6 +149,39 @@ function renderFavorites() {
     favoritesList.appendChild(div);
   });
 }
+
+function parseUserCodepoint(input) {
+  let clean = input.trim().toUpperCase();
+
+  // Allow "U+XXXX", "0xXXXX", or just "XXXX"
+  clean = clean.replace(/^U\+/, "").replace(/^0X/, "");
+
+  if (!/^[0-9A-F]+$/.test(clean)) return null;
+
+  const cp = parseInt(clean, 16);
+
+  // Unicode range check
+  if (cp < 0 || cp > 0x10FFFF) return null;
+  // Skip surrogate range
+  if (cp >= 0xD800 && cp <= 0xDFFF) return null;
+
+  return cp;
+}
+
+searchBtn.onclick = () => {
+  const cp = parseUserCodepoint(searchInput.value);
+  if (cp === null) {
+    alert("Invalid Unicode codepoint!");
+    return;
+  }
+
+  showCodepoint(cp);
+};
+
+// Bonus: press Enter to search
+searchInput.addEventListener("keydown", e => {
+  if (e.key === "Enter") searchBtn.click();
+});
 
 copyBtn.onclick = () => {
   navigator.clipboard.writeText(charEl.textContent + " " + codeEl.textContent);
