@@ -265,7 +265,7 @@ button:hover { opacity:0.85; }
 }
 
 #char {
-  margin-bottom: 2px;
+  margin-bottom: -2px;
 }
 
 #code, 
