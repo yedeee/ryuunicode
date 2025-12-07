@@ -188,10 +188,19 @@ copyBtn.onclick = () => {
 };
 
 cornerBtn.onclick = () => {
-  panel.classList.toggle("open");
-  blurOverlay.classList.toggle("active", panel.classList.contains("open"));
-  content.classList.toggle("blurred", panel.classList.contains("open"));
-  cornerBtn.classList.toggle("spin");
+  const isOpen = panel.classList.toggle("open");
+
+  // Blur overlay
+  blurOverlay.classList.toggle("active", isOpen);
+
+  // Blur main content
+  content.classList.toggle("blurred", isOpen);
+
+  // Spin icon
+  cornerBtn.classList.toggle("spin", isOpen);
+
+  document.body.style.overflow = isOpen ? "hidden" : "";
+
 };
 
 blurOverlay.onclick = () => {
