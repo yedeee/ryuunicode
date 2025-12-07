@@ -12,9 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Emoji&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Your stylesheet -->
   <link rel="stylesheet" href="styles.css">
@@ -31,15 +30,20 @@
     <div id="code">0x00003F</div>
     <div id="hex">Hex: 00003F</div>
     <div id="block">Block: (unknown)</div>
+
+    <!-- Search box -->
     <div id="searchBox">
-       <input id="searchInput" type="text" placeholder="Go to codepoint" />
-       <button id="searchBtn">Go</button>
+      <input id="searchInput" type="text" placeholder="Go to codepoint" />
+      <button id="searchBtn">Go</button>
     </div>
   </div>
 
-  <button id="copyBtn">Copy</button><br><br>
-  <button id="favBtn">* Favorite</button><br><br>
-  <button id="new">New random</button>
+  <!-- Controls group -->
+  <div id="controls">
+    <button id="copyBtn">Copy</button>
+    <button id="favBtn">* Favorite</button>
+    <button id="new">New random</button>
+  </div>
 </div>
 
 <div id="cornerBtn">⚙</div>
@@ -74,7 +78,6 @@
   <div><p>You are using Ryuunicode 1.0.1.</p></div>
 </div>
 
-<!-- Your JS script -->
 <script src="script.js"></script>
 
 </body>
