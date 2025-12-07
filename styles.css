@@ -279,13 +279,23 @@ button:hover { opacity:0.85; }
    ============================ */
 
 #blurOverlay {
-  position:fixed;
-  inset:0;
-  backdrop-filter:blur(8px);
-  background:rgba(0,0,0,0.25);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity var(--transition);
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.25);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+
+  /* FIXES */
+  z-index: 5000;      /* Below settings panel */
+  isolation: isolate; /* Prevent stacking bugs with backdrop-filter */
+}
+
+#blurOverlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 #blurOverlay.active { 
